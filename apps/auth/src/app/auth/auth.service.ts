@@ -1,48 +1,43 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { Injectable, Logger } from '@nestjs/common';
+
 import {
   AuthenticationDetails,
   CognitoUser,
   CognitoUserAttribute,
   CognitoUserPool,
-  CognitoUserSession,
   ISignUpResult,
 } from 'amazon-cognito-identity-js';
-import {
-  AdminDeleteUserCommand,
-  CognitoIdentityProviderClient,
-  GetUserCommand,
-  ChangePasswordCommand,
-} from '@aws-sdk/client-cognito-identity-provider';
+
 import { ConfigService } from '@nestjs/config';
 
-import { ConfirmPassword, LoginUser, RegisterUser, Verify} from '@moolahmate/shared'
+import { ConfirmPassword, LoginUser, RegisterUser} from '@moolahmate/shared'
+import { ChangePasswordDTO } from './dto/change-password.dto';
+import { EmailDTO } from './dto/email.dto';
 
 @Injectable()
 export class AuthService {
   private readonly userPool: CognitoUserPool;
-  private readonly cognitoIdentityServiceProvider: CognitoUserSession
-  private readonly providerClient: CognitoIdentityProviderClient;
+
   constructor(private configService: ConfigService) {
       this.userPool = new CognitoUserPool({
           UserPoolId: configService.get<string>('UserPoolId'),
           ClientId: configService.get<string>('ClientId'),
       });
-      this.providerClient = new CognitoIdentityProviderClient({
-          region: configService.get<string>('Region')
-      });
+
+
   }
 
-  registerUser(register: RegisterUser): Promise<ISignUpResult> {
-    const { email, password } = register;
+  async registerUser(register: RegisterUser): Promise<ISignUpResult> {
+    const { name,email, password } = register;
     return new Promise((resolve, reject) => {
         return this.userPool.signUp(
             email,
             password,
-            [new CognitoUserAttribute({ Name: 'email', Value: email })],
+            [
+                new CognitoUserAttribute({ Name: 'name', Value: name }),
+            ],
             null,
-            (err, result: ISignUpResult) => {
+            (err, result) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -68,10 +63,13 @@ authenticateUser(login: LoginUser) {
 
   const newUser = new CognitoUser(userData);
 
-  return new Promise<CognitoUserSession>((resolve, reject) => {
+  return new Promise((resolve, reject) => {
       return newUser.authenticateUser(authenticationDetails, {
-          onSuccess: result => {
-              resolve(result);
+          onSuccess: (result) => {
+            resolve({
+                accessToken: result.getAccessToken().getJwtToken(),
+                refreshToken: result.getRefreshToken().getToken(),
+              });
           },
           onFailure: err => {
               reject(err);
@@ -80,22 +78,9 @@ authenticateUser(login: LoginUser) {
   });
 }
 
-verifyUser(user: Verify) {
-  return new Promise((resolve, reject) => {
-      return new CognitoUser({ Username: user.email, Pool: this.userPool})
-          .confirmRegistration(user.code,
-              true,
-              (err, result) => {
-                  if(err) {
-                      reject(err);
-                  } else {
-                      resolve(result);
-                  }
-          })
-  });
-}
 
-forgotPassword(email:string) {
+forgotPassword(forgot:EmailDTO): Promise<void>  {
+    const {email} = forgot
   return new Promise((resolve, reject) => {
       return new CognitoUser({Username: email, Pool: this.userPool}).forgotPassword(
           {
@@ -122,12 +107,55 @@ confirmPassword(confirm: ConfirmPassword) {
   });
 }
 
-async deleteUser(email: string) {
-  const adminDeleteUserCommand = new AdminDeleteUserCommand({
-      Username: email,
-      UserPoolId: this.configService.get<string>('UserPoolId')
-  });
+async changeUserPassword(
+    changePasswordDto: ChangePasswordDTO,
+  ) {
+    const { email, password, newPassword } = changePasswordDto;
 
-  await this.providerClient.send(adminDeleteUserCommand)
-}
+    const userData = {
+      Username: email,
+      Pool: this.userPool,
+    };
+
+    const authenticationDetails = new AuthenticationDetails({
+      Username: email,
+      Password: password,
+    });
+
+    const userCognito = new CognitoUser(userData);
+
+    return new Promise((resolve, reject) => {
+      userCognito.authenticateUser(authenticationDetails, {
+        onSuccess: () => {
+          userCognito.changePassword(
+            password,
+            newPassword,
+            (err, result) => {
+              if (err) {
+                reject(err);
+                return;
+              }
+              resolve(result);
+            },
+          );
+        },
+        onFailure: (err) => {
+          reject(err);
+        },
+      });
+    });
+  }
+
+
+
+logout(email: string) {
+    return new Promise((resolve, reject) => {
+        const user =  new CognitoUser({Username: email, Pool: this.userPool})
+        if(!user) reject('User not found')
+        user.signOut()
+        resolve('User signed out');
+    })
+
+}   
+
 }
