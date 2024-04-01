@@ -9,6 +9,7 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { ConfirmPassword, LoginUser } from '@moolahmate/shared';
 import { ChangePasswordDTO } from './dto/change-password.dto';
 import { EmailDTO } from './dto/email.dto';
+import { RefreshToken } from './dto/refreshToken.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -65,10 +66,20 @@ export class AuthController {
       throw new BadRequestException(error);
     }
   }
+
   @Post('logout')
   async logout(@Body() username: EmailDTO) {
     try {
       return await this.authService.logout(username.email)
+    } catch (error) {
+      throw new BadRequestException(error);
+
+    }
+  }
+  @Post('refreshToken')
+  async refreshToken(@Body() refresh: RefreshToken) {
+    try {
+      return await this.authService.refreshToken(refresh)
     } catch (error) {
       throw new BadRequestException(error);
 

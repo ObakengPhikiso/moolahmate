@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import {
   AuthenticationDetails,
+  CognitoRefreshToken,
   CognitoUser,
   CognitoUserAttribute,
   CognitoUserPool,
@@ -13,6 +14,7 @@ import { ConfigService } from '@nestjs/config';
 import { ConfirmPassword, LoginUser, RegisterUser} from '@moolahmate/shared'
 import { ChangePasswordDTO } from './dto/change-password.dto';
 import { EmailDTO } from './dto/email.dto';
+import { RefreshToken } from './dto/refreshToken.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,8 +25,6 @@ export class AuthService {
           UserPoolId: configService.get<string>('UserPoolId'),
           ClientId: configService.get<string>('ClientId'),
       });
-
-
   }
 
   async registerUser(register: RegisterUser): Promise<ISignUpResult> {
@@ -65,10 +65,15 @@ authenticateUser(login: LoginUser) {
 
   return new Promise((resolve, reject) => {
       return newUser.authenticateUser(authenticationDetails, {
-          onSuccess: (result) => {
+          onSuccess: (results: any) => {
             resolve({
-                accessToken: result.getAccessToken().getJwtToken(),
-                refreshToken: result.getRefreshToken().getToken(),
+                accessToken: results.idToken.jwtToken,
+                refreshToken: results.refreshToken.token,
+                user: {
+                   email_verified:results.idToken.payload.email_verified,
+                   name: results.idToken.payload.name,
+                   email: results.idToken.payload.email
+                }
               });
           },
           onFailure: err => {
@@ -146,7 +151,25 @@ async changeUserPassword(
     });
   }
 
+refreshToken(refresh: RefreshToken) {
+    return new Promise((resolve, reject) => {
+        const token = new CognitoRefreshToken({RefreshToken: refresh.refreshToken})
+        const user = new CognitoUser({Username: refresh.email, Pool: this.userPool});
+        user.refreshSession(token, (err, results) => {
+            if(err) reject(err)
+            resolve({
+             accessToken: results.idToken.jwtToken,
+             refreshToken: results.refreshToken.token,
+             user: {
+                email_verified:results.idToken.payload.email_verified,
+                name: results.idToken.payload.name,
+                email: results.idToken.payload.email
+             }
+        })
+        })
+    });
 
+}
 
 logout(email: string) {
     return new Promise((resolve, reject) => {

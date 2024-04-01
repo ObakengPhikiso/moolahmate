@@ -23,7 +23,6 @@ export class AuthComponent {
 
   register() {
     const user = this.form.value as RegisterUser;
-    console.log(user);
 
     this.authService.registerUser(user).then((res) => {
       console.log(res);
