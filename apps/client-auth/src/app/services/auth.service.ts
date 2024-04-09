@@ -1,0 +1,80 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ConfirmPassword, LoginResponse, LoginUser, RegisterUser, ResetPassword, User } from '@moolahmate/shared';
+import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
+  private readonly TOKEN_NAME = 'client_token';
+  private readonly REFRESH_TOKEN_NAME = 'client_refresh_token';
+  isLoggedIn$ = this._isLoggedIn$.asObservable();
+  userToken: User | null;
+
+  get token(): string | null {
+    return sessionStorage.getItem('token') || null;
+  }
+
+  get currUser(): unknown | null {
+    const currUser = sessionStorage.getItem('user');
+    return currUser;
+  }
+
+
+  constructor(private http: HttpClient) {
+    this._isLoggedIn$.next(!!this.token);
+    this.userToken = this.getUserToken(this.token);
+   }
+
+
+   signin(user: LoginUser) {
+    return this.http.post<LoginResponse>(environment.signin, user).pipe(
+      tap((response: LoginResponse) => {
+        this._isLoggedIn$.next(true);
+        sessionStorage.setItem(this.TOKEN_NAME, response.accessToken);
+        sessionStorage.setItem(this.TOKEN_NAME, response.refreshToken);
+        sessionStorage.setItem('user',JSON.stringify(response.user));
+      })
+    )
+   }
+
+   signup(user: RegisterUser) {
+    return this.http.post(environment.signup,user).pipe(
+      tap((response: unknown) => {
+        return response
+      })
+    )
+   }
+
+   logout() {
+    sessionStorage.removeItem(this.TOKEN_NAME);
+    sessionStorage.removeItem(this.REFRESH_TOKEN_NAME);
+    sessionStorage.removeItem('user');
+    this._isLoggedIn$.next(false);
+   }
+
+   forgotPassword(email: string) {
+    return this.http.post(environment.forgotPassword, {mail: email}).pipe(tap((response: unknown) =>response));
+   }
+
+   confirmPassword(form: ConfirmPassword) {
+    return this.http.post(environment.confirmPassword, form).pipe(tap((response: unknown) =>response));
+   }
+
+   resetPassword(form: ResetPassword) {
+    return this.http.post(environment.refreshToken, form).pipe(tap((response: unknown) =>response));
+   }
+
+   private getUserToken(token: string | null): User | null {
+    if(!token) {
+      return null;
+    }
+    return JSON.parse(atob(token.split('.')[1])) as User
+   }
+
+}

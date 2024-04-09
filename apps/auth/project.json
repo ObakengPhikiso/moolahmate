@@ -19,6 +19,10 @@
           "buildTarget": "auth:build:production"
         }
       }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/auth/Dockerfile . -t auth"
     }
   }
 }

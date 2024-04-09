@@ -1,0 +1,103 @@
+<div class="container mx-auto sm:px-4 mb-4">
+    <div class="flex flex-wrap  items-center">
+        <div class="w-2/5 mx-auto">
+            <div class="card w-full bg-neutral shadow-xl">
+                <div class="card-body">
+
+                    <div class="grid grid-cols-2">
+                        <a [routerLink]="'/auth/signup'" [routerLinkActive]="'active'"
+                            class="pb-3 justify-center card-title">Sign up</a>
+                        <a [routerLink]="'/auth/signin'" [routerLinkActive]="'active'"
+                            class="pb-3 justify-center card-title">Signin</a>
+                    </div>
+
+                    <!-- Tabs for register -->
+
+                    <form class="space-y-6" [formGroup]="form">
+                        <div>
+                            <label for="name"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                Name</label>
+                            <input type="text" id="name" formControlName="name"
+                                class="bg-gray-50 border shadow-md border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                placeholder="John" required>
+                            <div *ngIf="f['name'].touched && f['name'].invalid" class="text-error">
+                                <div *ngIf="f['name'].touched && f['name'].hasError('required')" class="text-error">
+                                    Name is required
+                                </div>
+                            </div>
+                        </div>
+          
+                        <div>
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                Email</label>
+                            <input type="email" id="email" formControlName="email"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                placeholder="name@gmail.com" required>
+                            <div *ngIf="f['email'].touched && f['email'].invalid">
+                                <div *ngIf="f['email'].errors && f['email'].errors['required']" class="text-error">
+                                    Email is required
+                                </div>
+                                <div *ngIf="f['email'].errors && f['email'].errors['email']" class="text-error">
+                                    Please, enter a valid email address
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <label for="password"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                Password</label>
+                            <input [type]=" showPassword ? 'text' : 'password' " formControlName="password"
+                                id="password" placeholder="••••••••"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                required>
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center ">
+                                <i class="mt-7 fa fa-eye show-option px-2 py-1" aria-hidden="true"
+                                    (click)="showPassword =! showPassword" *ngIf="!showPassword"></i>
+                                <i class="mt-7 fa fa-eye-slash hide-option px-2 py-1" aria-hidden="true"
+                                    (click)="showPassword =! showPassword" *ngIf="showPassword"></i>
+                            </div>
+
+                            <div *ngIf="f['password'].touched && f['password'].invalid">
+                                <div *ngIf="f['password'].touched && f['password'].hasError('required')">
+                                    Password is required
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+                            <label for="confirm-password"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Confirm
+                                password</label>
+                            <input type="password" formControlName="confirm_password" id="confirm-password"
+                                placeholder="••••••••"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                required>
+                            <div *ngIf="f['confirm_password'].touched && f['confirm_password'].invalid">
+                                <div *ngIf="f['confirm_password'].touched && f['confirm_password'].hasError('required')"
+                                    class="text-error">
+                                    Confirm password is required
+                                </div>
+
+                            </div>
+                            <div *ngIf="passwordMatchError" class="text-error">
+                                Passwords does not match
+                            </div>
+                        </div>
+
+                        <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                            Already have an account? <a [routerLink]="'/auth/signin'"
+                                class="text-blue-700 hover:underline dark:text-blue-500">Signin
+                                now</a>
+                        </div>
+                    </form>
+                    <div class="card-actions justify-center">
+                        <button type="submit" (click)="signup()"
+                            class="btn btn-primary btn-block disabled:bg-gray-500 disabled:text-white"
+                            [disabled]="!form.valid">Signup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
