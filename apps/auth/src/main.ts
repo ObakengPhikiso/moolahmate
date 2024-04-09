@@ -9,7 +9,7 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   app.enableCors({
     credentials: true,
-    origin: ['http://localhost:80', 'https://localhost:4200']
+    origin: ['http://localhost:80', 'http://localhost:4200']
   })
   app.useGlobalPipes(new ValidationPipe());
   const port = process.env.PORT || 3000;

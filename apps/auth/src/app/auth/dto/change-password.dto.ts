@@ -1,4 +1,4 @@
-import {  ResetPassword } from "@moolahmate/shared";
+import {  ResetPassword } from "@moolahmate/interfaces";
 import { IsEmail, Matches } from "class-validator";
 
 export class ChangePasswordDTO implements ResetPassword {

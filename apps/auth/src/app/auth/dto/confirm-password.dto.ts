@@ -1,4 +1,4 @@
-import { ConfirmPassword } from "@moolahmate/shared";
+import { ConfirmPassword } from "@moolahmate/interfaces";
 import { IsEmail, IsString, Matches } from "class-validator";
 
 export class ConfirmPasswordDTO implements ConfirmPassword {

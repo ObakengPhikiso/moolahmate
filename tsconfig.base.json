@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@moolahmate/shared": ["libs/shared/src/index.ts"]
+      "@moolahmate/interfaces": ["libs/interfaces/src/index.ts"],
+      "@moolahmate/services": ["libs/services/src/index.ts"],
+      "@moolahmate/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

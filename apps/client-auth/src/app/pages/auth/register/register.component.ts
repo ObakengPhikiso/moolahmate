@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { CustomvalidatorService } from '../../../helpers/customvalidator.service';
 import { AuthService } from '../../../services/auth.service';
-import { RegisterUser } from '@moolahmate/shared';
+import { RegisterUser } from '@moolahmate/interfaces';
 import { CommonModule } from '@angular/common';
+import { CustomvalidatorService, StrongPasswordRegx } from '@moolahmate/utils';
 
 
 @Component({
@@ -16,17 +16,19 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent  {
   showPassword = false;
-
+  
   form: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
-    confirm_password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required, Validators.pattern(StrongPasswordRegx)]),
+    confirm_password: new FormControl('', [Validators.required, Validators.pattern(StrongPasswordRegx)]),
   }, [CustomvalidatorService.MatchValidator('password','confirm_password')]);
 
   constructor(private router: Router, private authService: AuthService) {
    }
-
+   get passwordFormField() {
+    return this.form.get('password');
+  }
   
 
   signup(): void {

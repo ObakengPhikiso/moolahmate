@@ -21,7 +21,10 @@
           "apps/client-auth/src/assets"
         ],
         "styles": ["apps/client-auth/src/styles.scss"],
-        "scripts": []
+        "scripts": [
+          "node_modules/@popperjs/core/dist/umd/popper.js",
+          "node_modules/flowbite/dist/flowbite.js"
+        ]
       },
       "configurations": {
         "production": {

@@ -11,7 +11,7 @@ import {
 
 import { ConfigService } from '@nestjs/config';
 
-import { ConfirmPassword, LoginUser, RegisterUser} from '@moolahmate/shared'
+import { ConfirmPassword, LoginUser, RegisterUser} from '@moolahmate/interfaces'
 import { ChangePasswordDTO } from './dto/change-password.dto';
 import { EmailDTO } from './dto/email.dto';
 import { RefreshToken } from './dto/refreshToken.dto';
@@ -27,7 +27,7 @@ export class AuthService {
       });
   }
 
-  async registerUser(register: RegisterUser): Promise<ISignUpResult> {
+  async registerUser(register: RegisterUser): Promise<any> {
     const { name,email, password } = register;
     return new Promise((resolve, reject) => {
         return this.userPool.signUp(
@@ -37,11 +37,16 @@ export class AuthService {
                 new CognitoUserAttribute({ Name: 'name', Value: name }),
             ],
             null,
-            (err, result) => {
+            (err: Error, result: ISignUpResult) => {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(result);
+                    resolve({
+                      message: "User registration successful",
+                      user: {
+                        username: result.user.getUsername()
+                      }
+                    });
                 }
             },
         );

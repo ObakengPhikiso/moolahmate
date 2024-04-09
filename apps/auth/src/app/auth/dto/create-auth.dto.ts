@@ -1,4 +1,4 @@
-import {RegisterUser} from '@moolahmate/shared';
+import {RegisterUser} from '@moolahmate/interfaces';
 import { IsEmail, IsString, Matches } from 'class-validator';
 
 export class CreateAuthDto implements RegisterUser  {

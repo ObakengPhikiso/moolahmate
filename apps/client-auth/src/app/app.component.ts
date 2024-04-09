@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { ComponentsModule } from './components/components/components.module';
+import {  RouterLink, RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @Component({
   standalone: true,
-  imports: [
-    RouterModule, 
-    ComponentsModule],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  imports: [RouterOutlet, RouterLink, NavbarComponent, FooterComponent]
 })
 export class AppComponent {
   title = 'client-auth';

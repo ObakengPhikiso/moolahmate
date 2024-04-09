@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConfirmPassword, LoginResponse, LoginUser, RegisterUser, ResetPassword, User } from '@moolahmate/shared';
+import { ConfirmPassword, LoginResponse, LoginUser, RegisterUser, ResetPassword, User } from '@moolahmate/interfaces';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -37,7 +37,7 @@ export class AuthService {
       tap((response: LoginResponse) => {
         this._isLoggedIn$.next(true);
         sessionStorage.setItem(this.TOKEN_NAME, response.accessToken);
-        sessionStorage.setItem(this.TOKEN_NAME, response.refreshToken);
+        sessionStorage.setItem(this.REFRESH_TOKEN_NAME, response.refreshToken);
         sessionStorage.setItem('user',JSON.stringify(response.user));
       })
     )

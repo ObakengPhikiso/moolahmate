@@ -12,7 +12,7 @@ WORKDIR /app
 COPY . .
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm exec nx build client-auth --prod
+RUN pnpm exec nx build client-auth --prod --verbose
 
 # Stage 2: Serve app with nginx server
 

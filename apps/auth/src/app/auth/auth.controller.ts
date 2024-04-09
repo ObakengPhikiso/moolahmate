@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { ConfirmPassword, LoginUser } from '@moolahmate/shared';
+import { ConfirmPassword, LoginUser } from '@moolahmate/interfaces';
 import { ChangePasswordDTO } from './dto/change-password.dto';
 import { EmailDTO } from './dto/email.dto';
 import { RefreshToken } from './dto/refreshToken.dto';
