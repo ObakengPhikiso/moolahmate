@@ -19,42 +19,46 @@ module.exports = {
     themes: [
       {
         'synthwave': {
-          'primary' : '#e679c0',
-          'primary-focus' : '#e04dac',
-          'primary-content' : '#201047',
-
-          'secondary' : '#54c5f2',
-          'secondary-focus' : '#88d7f7',
-          'secondary-content' : '#201047',
-
-          'accent' : '#f3cc30',
-          'accent-focus' : '#f6d860',
-          'accent-content' : '#201047',
-
-          'neutral' : '#20134e',
-          'neutral-focus' : '#140a2e',
-          'neutral-content' : '#f9f7fd',
-
-          'base-100' : '#2c1a65',
-          'base-200' : '#20134e',
-          'base-300' : '#140a2e',
-          'base-content' : '#f9f7fd',
-
-          'info' : '#4fbff3',
-          'success' : '#71ead2',
-          'warning' : '#f3cc30',
-          'error' : '#e13d53',
-
-         '--rounded-box': '1rem',          
-         '--rounded-btn': '.5rem',        
-         '--rounded-badge': '1.9rem',      
-
-         '--animation-btn': '.25s',       
-         '--animation-input': '.2s',       
-
-         '--btn-text-case': 'uppercase',   
-         '--navbar-padding': '.5rem',      
-         '--border-btn': '1px',            
+  
+          "primary": "#f100a4",
+          
+          "primary-content": "#14000a",
+                   
+          "secondary": "#007d36",
+                   
+          "secondary-content": "#d2e5d5",
+                   
+          "accent": "#0000ff",
+                   
+          "accent-content": "#c6dbff",
+                   
+          "neutral": "#292929",
+                   
+          "neutral-content": "#d0d0d0",
+                   
+          "base-100": "#04272c",
+                   
+          "base-200": "#032025",
+                   
+          "base-300": "#021a1e",
+                   
+          "base-content": "#c8cfd0",
+                   
+          "info": "#00f4ff",
+                   
+          "info-content": "#001416",
+                   
+          "success": "#00dd97",
+                   
+          "success-content": "#001108",
+                   
+          "warning": "#ff9100",
+                   
+          "warning-content": "#160700",
+                   
+          "error": "#ff7782",
+                   
+          "error-content": "#160506",        
        },
       },
     ],

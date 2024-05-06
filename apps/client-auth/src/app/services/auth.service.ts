@@ -17,7 +17,10 @@ export class AuthService {
   userToken: User | null;
 
   get token(): string | null {
-    return sessionStorage.getItem('token') || null;
+    return sessionStorage.getItem(this.TOKEN_NAME) || null;
+  }
+  get refresh_token(): string | null {
+    return sessionStorage.getItem(this.REFRESH_TOKEN_NAME) || null;
   }
 
   get currUser(): unknown | null {
@@ -28,7 +31,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     this._isLoggedIn$.next(!!this.token);
-    this.userToken = this.getUserToken(this.token);
+    this.userToken = this.getUserToken(this.token);    
    }
 
 
@@ -51,11 +54,16 @@ export class AuthService {
     )
    }
 
-   logout() {
-    sessionStorage.removeItem(this.TOKEN_NAME);
-    sessionStorage.removeItem(this.REFRESH_TOKEN_NAME);
-    sessionStorage.removeItem('user');
-    this._isLoggedIn$.next(false);
+   logout():Promise<boolean> {
+
+    const res = new Promise<boolean>((resolve, reject) => {
+      sessionStorage.removeItem(this.TOKEN_NAME);
+      sessionStorage.removeItem(this.REFRESH_TOKEN_NAME);
+      sessionStorage.removeItem('user');
+      this._isLoggedIn$.next(false);
+      resolve(true)
+    })
+    return res
    }
 
    forgotPassword(email: string) {

@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import {  Component, ElementRef, ViewChild } from '@angular/core';
+import {  Component } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -9,16 +11,9 @@ import {  Component, ElementRef, ViewChild } from '@angular/core';
   imports:[CommonModule]
 })
 export class NavbarComponent   {
-  dropdownPopoverShow = false;
-  @ViewChild("btnDropdownRef", { static: false }) btnDropdownRef!: ElementRef;
-  @ViewChild("popoverDropdownRef", { static: false })
-  popoverDropdownRef!: ElementRef;
-  
+  constructor(private authService: AuthService, private router: Router){}
 
-  
- showMenu = false;
-  toggleNavbar(){
-    this.showMenu = !this.showMenu;
+  logout() {
+    this.authService.logout().then(() => this.router.navigate(['/auth/signin']))
   }
-
 }

@@ -10,9 +10,10 @@ WORKDIR /app
 
 # Add the source code to app
 COPY . .
+RUN rm -rf .nx .angular
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm exec nx build client-auth --prod --verbose
+RUN pnpm exec nx build client-auth --prod
 
 # Stage 2: Serve app with nginx server
 
