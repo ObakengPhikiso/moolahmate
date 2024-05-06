@@ -4,10 +4,11 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { LoginUser } from '@moolahmate/interfaces';
 import { CommonModule } from '@angular/common';
+import { LoaderComponent } from '@moolahmate/ui-components';
 
 @Component({
   selector: 'app-signin',
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule, LoaderComponent],
   templateUrl: './signin.component.html',
   standalone: true,
   styleUrls: ['./signin.component.scss']

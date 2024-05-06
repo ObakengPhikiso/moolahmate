@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@moolahmate/interfaces": ["libs/interfaces/src/index.ts"],
+      "@moolahmate/ui-components": ["libs/ui-components/src/index.ts"],
       "@moolahmate/utils": ["libs/utils/src/index.ts"]
     }
   },

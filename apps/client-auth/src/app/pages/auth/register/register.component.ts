@@ -5,12 +5,13 @@ import { AuthService } from '../../../services/auth.service';
 import { RegisterUser } from '@moolahmate/interfaces';
 import { CommonModule } from '@angular/common';
 import { CustomvalidatorService, StrongPasswordRegx } from '@moolahmate/utils';
+import { LoaderComponent } from '@moolahmate/ui-components';
 
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  imports: [RouterModule, ReactiveFormsModule, CommonModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule,LoaderComponent],
   standalone: true,
   styleUrls: ['./register.component.scss']
 })

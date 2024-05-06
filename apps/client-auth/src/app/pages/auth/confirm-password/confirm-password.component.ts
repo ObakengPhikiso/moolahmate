@@ -4,12 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { ConfirmPassword } from '@moolahmate/interfaces';
 import { CommonModule } from '@angular/common';
+import { LoaderComponent } from '@moolahmate/ui-components';
 
 @Component({
   selector: 'app-confirm-password',
   templateUrl: './confirm-password.component.html',
   styleUrls: ['./confirm-password.component.scss'],
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, LoaderComponent],
   standalone: true
 })
 export class ConfirmPasswordComponent  {

@@ -3,11 +3,12 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { LoaderComponent } from '@moolahmate/ui-components';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [CommonModule,RouterModule, ReactiveFormsModule],
+  imports: [CommonModule,RouterModule, ReactiveFormsModule, LoaderComponent],
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss']
 })
