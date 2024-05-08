@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
 import { RegisterUser } from '@moolahmate/interfaces';
 import { CommonModule } from '@angular/common';
-import { CustomvalidatorService, StrongPasswordRegx } from '@moolahmate/utils';
+import { AuthService, CustomvalidatorService, StrongPasswordRegx } from '@moolahmate/utils';
 import { LoaderComponent } from '@moolahmate/ui-components';
 
 

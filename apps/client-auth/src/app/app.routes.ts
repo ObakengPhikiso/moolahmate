@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard } from '@moolahmate/utils';
 
 export const appRoutes: Route[] = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},

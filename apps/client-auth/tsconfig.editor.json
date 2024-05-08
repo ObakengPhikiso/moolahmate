@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src/**/*.ts", "../../libs/utils/src/lib/customvalidator.service.spec.ts", "../../libs/utils/src/lib/customvalidator.service.ts", "src/app/helpers/jwt-token.interceptor.spec.ts", "src/app/helpers/jwt-token.interceptor.ts"],
+  "include": ["src/**/*.ts", "../../libs/utils/src/lib/customvalidator.service.spec.ts", "../../libs/utils/src/lib/customvalidator.service.ts", "src/app/helpers/jwt-token.interceptor.spec.ts", "../../libs/utils/src/lib/auth/jwt-token.interceptor.ts", "../../libs/utils/src/lib/auth/auth.service.ts"],
   "compilerOptions": {},
   "exclude": ["jest.config.ts", "src/**/*.test.ts", "src/**/*.spec.ts"]
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ConfirmPassword, LoginResponse, LoginUser, RegisterUser, ResetPassword, User } from '@moolahmate/interfaces';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../../../apps/client-auth/src/environments/environment';
 
 
 @Injectable({
@@ -75,7 +75,16 @@ export class AuthService {
    }
 
    resetPassword(form: ResetPassword) {
-    return this.http.post(environment.refreshToken, form).pipe(tap((response: unknown) =>response));
+    return this.http.post(environment.changePassword, form).pipe(tap((response: unknown) =>response));
+   }
+
+   refreshToken(token: string, email: string) {
+    return this.http.post<LoginResponse>(environment.refreshToken,{refreshToken: token, email: email}).pipe(tap((response:LoginResponse) => {
+      this._isLoggedIn$.next(true);
+      sessionStorage.setItem(this.TOKEN_NAME, response.accessToken);
+      sessionStorage.setItem(this.REFRESH_TOKEN_NAME, response.refreshToken);
+      sessionStorage.setItem('user',JSON.stringify(response.user));
+    }));
    }
 
    private getUserToken(token: string | null): User | null {
@@ -84,5 +93,6 @@ export class AuthService {
     }
     return JSON.parse(atob(token.split('.')[1])) as User
    }
+
 
 }

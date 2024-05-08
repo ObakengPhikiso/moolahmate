@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
 import { ConfirmPassword } from '@moolahmate/interfaces';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from '@moolahmate/ui-components';
+import { AuthService } from '@moolahmate/utils';
 
 @Component({
   selector: 'app-confirm-password',
