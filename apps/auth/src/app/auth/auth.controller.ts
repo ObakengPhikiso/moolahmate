@@ -10,8 +10,9 @@ import { ConfirmPassword, LoginUser } from '@moolahmate/interfaces';
 import { ChangePasswordDTO } from './dto/change-password.dto';
 import { EmailDTO } from './dto/email.dto';
 import { RefreshToken } from './dto/refreshToken.dto';
-
+import {ApiTags} from '@nestjs/swagger'
 @Controller('auth')
+@ApiTags('User')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

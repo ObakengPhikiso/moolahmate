@@ -23,6 +23,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/swagger": "^7.3.1",
     "@nx/angular": "^18.3.0-canary.20240329-ef81455",
     "@popperjs/core": "^2.11.8",
     "amazon-cognito-identity-js": "^6.3.12",
@@ -35,7 +36,7 @@
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
-    "tslib": "^2.3.0",
+    "tslib": "^2.6.2",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
