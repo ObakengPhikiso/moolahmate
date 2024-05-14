@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema()
 export class Expense extends Document {
@@ -14,6 +14,9 @@ export class Expense extends Document {
 
   @Prop()
   description: string;
+
+  @Prop({ type: Types.ObjectId, ref: 'income' })
+  monthlyIncome: string; // Reference to MonthlyIncome document
 }
 
 export const ExpenseSchema = SchemaFactory.createForClass(Expense);
