@@ -3,3 +3,41 @@
 @tailwind utilities;
 
 /* You can add global styles to this file, and also import other style files */
+
+.theme-custom {
+    /* Name: custom color palette
+       Author: Ilias Ism
+       URL: https://gradient.page */
+
+    /* CSS: .bg-gradient { background: var(--gradient) } */
+    --gradient: #7DE2FC;
+
+    --background: 204 61.75% 5.92%;
+    --foreground: 204 9.5% 98.7%;
+
+    --muted: 204 47.5% 22.2%;
+    --muted-foreground: 204 9.5% 57.4%;
+
+    --popover: 204 46% 9.62%;
+    --popover-foreground: 204 9.5% 98.7%;
+
+    --card: 204 46% 9.62%;
+    --card-foreground: 204 9.5% 98.7%;
+
+    --border: 204 47.5% 22.2%;
+    --input: 204 47.5% 22.2%;
+
+    --primary: 204 95% 74%;
+    --primary-foreground: 204 9.5% 7.4%;
+
+    --secondary: 204 47.5% 22.2%;
+    --secondary-foreground: 204 9.5% 98.7%;
+
+    --accent: 204 47.5% 22.2%;
+    --accent-foreground: 204 9.5% 98.7%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 204 9.5% 98.7%;
+
+    --ring: 204 95% 74%;
+}

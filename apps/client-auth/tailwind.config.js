@@ -15,7 +15,7 @@ module.exports = {
     require('flowbite/plugin')
   ],
   daisyui: {
-    darkMode: false,
+    darkMode: true,
     themes: [
       {
         'synthwave': {

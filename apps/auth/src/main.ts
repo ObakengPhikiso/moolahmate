@@ -13,7 +13,7 @@ async function bootstrap() {
   .addTag('moolahmate')
   .build();
 const document = SwaggerModule.createDocument(app, config);
-SwaggerModule.setup('swagger', app, document);
+SwaggerModule.setup('/', app, document);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   app.enableCors({
