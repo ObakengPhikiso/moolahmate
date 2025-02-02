@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { LoaderService } from './loader.service';
+import { LoaderService } from '@moolahmate/ui-components';
 
 export const LoaderInterceptor: HttpInterceptorFn = (req:HttpRequest<any>,next:HttpHandlerFn): Observable<HttpEvent<any>> => {
     const loader = inject(LoaderService)

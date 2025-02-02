@@ -12,10 +12,11 @@ async function bootstrap() {
   .setVersion('1.0')
   .addTag('moolahmate')
   .build();
-const document = SwaggerModule.createDocument(app, config);
-SwaggerModule.setup('/', app, document);
+
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+  const document = SwaggerModule.createDocument(app, config);
+SwaggerModule.setup('/', app, document);
   app.enableCors({
     credentials: true,
     origin: ['http://localhost:80', 'http://localhost:4200']

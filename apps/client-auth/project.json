@@ -7,7 +7,7 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/client-auth",
@@ -24,7 +24,10 @@
         "scripts": [
           "node_modules/@popperjs/core/dist/umd/popper.js",
           "node_modules/flowbite/dist/flowbite.js"
-        ]
+        ],
+        "customWebpackConfig": {
+          "path": "apps/client-auth/webpack.config.js"
+        }
       },
       "configurations": {
         "production": {
@@ -57,7 +60,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@nx/angular:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "client-auth:build:production"

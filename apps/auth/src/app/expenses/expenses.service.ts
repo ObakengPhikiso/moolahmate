@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { Expense } from '../schemas/expenses.schema';
 
 @Injectable()
 export class ExpensesService {
-  create(createExpenseDto: CreateExpenseDto) {
-    return 'This action adds a new expense';
+  constructor(@InjectModel(Expense.name) private readonly expenseModel: Model<Expense>){}
+
+  async create(createExpenseDto: CreateExpenseDto) {
+    const res = await this.expenseModel.create(createExpenseDto);
+    if(!res) throw new BadRequestException(res)
+    return res
   }
 
-  findAll() {
-    return `This action returns all expenses`;
+  async findAll() {
+    const res = await this.expenseModel.find()
+    if(!res) throw new BadRequestException(res)
+    return res
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} expense`;
+ async findOne(id: string) {
+    const res = await this.expenseModel.findById(id)
+    if(!res) throw new BadRequestException(res)
+    return res  
   }
 
-  update(id: number, updateExpenseDto: UpdateExpenseDto) {
-    return `This action updates a #${id} expense`;
+  async update(id: string, updateExpenseDto: UpdateExpenseDto) {
+    const res = await this.expenseModel.findByIdAndUpdate(id, updateExpenseDto, { new: true })
+    if(!res) throw new BadRequestException(res)
+    return res
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} expense`;
-  }
+  async remove(id: string) {
+    const res = await this.expenseModel.findByIdAndDelete(id)
+    if(!res) throw new BadRequestException(res)
+    return res 
+   }
 }

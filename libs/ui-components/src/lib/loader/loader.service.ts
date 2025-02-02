@@ -12,6 +12,10 @@ export class LoaderService {
   showLoader() {
     if (this.apiCount === 0) {
       this.isLoadingSubject.next(true);
+      this.isLoadingSubject.subscribe((val) => {
+        console.log(val);
+        
+      })      
     }
     this.apiCount++;
   }

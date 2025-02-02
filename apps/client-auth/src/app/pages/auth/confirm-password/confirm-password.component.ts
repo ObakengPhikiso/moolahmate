@@ -33,7 +33,7 @@ form: FormGroup
   }
   confirmPassword(form: ConfirmPassword): void {
     this.authService.confirmPassword(form).subscribe(() => {
-      this.router.navigateByUrl('/auth')
+      this.router.navigate([{outlets: {auth: ['auth/signin']}}])
     }, (err:unknown) => {
       console.log(err);
     })

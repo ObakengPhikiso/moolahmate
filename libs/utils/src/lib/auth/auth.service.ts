@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { ConfirmPassword, LoginResponse, LoginUser, RegisterUser, ResetPassword, User } from '@moolahmate/interfaces';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { environment } from '../../../../../apps/client-auth/src/environments/environment';
 
 
 @Injectable({
@@ -36,7 +35,9 @@ export class AuthService {
 
 
    signin(user: LoginUser) {
-    return this.http.post<LoginResponse>(environment.signin, user).pipe(
+    console.log(process.env);
+    
+    return this.http.post<LoginResponse>(process.env['MOOLAH_MATE_SIGNIN_URL'] || '', user).pipe(
       tap((response: LoginResponse) => {
         this._isLoggedIn$.next(true);
         sessionStorage.setItem(this.TOKEN_NAME, response.accessToken);
@@ -47,7 +48,7 @@ export class AuthService {
    }
 
    signup(user: RegisterUser) {
-    return this.http.post(environment.signup,user).pipe(
+    return this.http.post(process.env['MOOLAH_MATE_SIGNUP_URL'] || '',user).pipe(
       tap((response: unknown) => {
         return response
       })
@@ -67,19 +68,19 @@ export class AuthService {
    }
 
    forgotPassword(email: string) {
-    return this.http.post(environment.forgotPassword, {mail: email}).pipe(tap((response: unknown) =>response));
+    return this.http.post(process.env['MOOLAH_MATE_FORGOT_PASSWORD_URL'] || '', {mail: email}).pipe(tap((response: unknown) =>response));
    }
 
    confirmPassword(form: ConfirmPassword) {
-    return this.http.post(environment.confirmPassword, form).pipe(tap((response: unknown) =>response));
+    return this.http.post(process.env['MOOLAH_MATE_CONFIRM_PASSWORD'] || '', form).pipe(tap((response: unknown) =>response));
    }
 
    resetPassword(form: ResetPassword) {
-    return this.http.post(environment.changePassword, form).pipe(tap((response: unknown) =>response));
+    return this.http.post(process.env['MOOLAH_MATE_CHANGE_PASSWORD'] || '', form).pipe(tap((response: unknown) =>response));
    }
 
    refreshToken(token: string, email: string) {
-    return this.http.post<LoginResponse>(environment.refreshToken,{refreshToken: token, email: email}).pipe(tap((response:LoginResponse) => {
+    return this.http.post<LoginResponse>(process.env['MOOLAH_MATE_REFRESH_TOKEN_URL'] || '',{refreshToken: token, email: email}).pipe(tap((response:LoginResponse) => {
       this._isLoggedIn$.next(true);
       sessionStorage.setItem(this.TOKEN_NAME, response.accessToken);
       sessionStorage.setItem(this.REFRESH_TOKEN_NAME, response.refreshToken);

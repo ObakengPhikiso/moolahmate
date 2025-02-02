@@ -27,16 +27,16 @@ export class IncomeController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.incomeService.findOne(+id);
+    return this.incomeService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateIncomeDto: UpdateIncomeDto) {
-    return this.incomeService.update(+id, updateIncomeDto);
+    return this.incomeService.update(id, updateIncomeDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.incomeService.remove(+id);
+    return this.incomeService.remove(id);
   }
 }
