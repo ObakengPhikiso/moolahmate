@@ -7,7 +7,7 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/angular:webpack-browser",
+      "executor": "@nx/angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/client-auth",
@@ -25,9 +25,7 @@
           "node_modules/@popperjs/core/dist/umd/popper.js",
           "node_modules/flowbite/dist/flowbite.js"
         ],
-        "customWebpackConfig": {
-          "path": "apps/client-auth/webpack.config.js"
-        }
+        "plugins": ["apps/client-auth/plugins/env-var-plugin.js"]
       },
       "configurations": {
         "production": {

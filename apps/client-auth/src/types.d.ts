@@ -1,5 +1,6 @@
 declare const process: {
     env: {
+        [x: string]: any;
         MOOLAH_MATE_API_BASE_URL:string;
         MOOLAH_MATE_SIGNIN_URL:string;
         MOOLAH_MATE_SIGNUP_URL:string

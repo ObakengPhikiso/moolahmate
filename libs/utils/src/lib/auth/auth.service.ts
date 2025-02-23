@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable,Inject } from '@angular/core';
 import { ConfirmPassword, LoginResponse, LoginUser, RegisterUser, ResetPassword, User } from '@moolahmate/interfaces';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
+import {APP_CONFIG} from '@moolahmate/app-config';
 
 @Injectable({
   providedIn: 'root'
@@ -28,16 +28,15 @@ export class AuthService {
   }
 
 
-  constructor(private http: HttpClient) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private environment: any) {
     this._isLoggedIn$.next(!!this.token);
     this.userToken = this.getUserToken(this.token);    
    }
 
 
    signin(user: LoginUser) {
-    console.log(process.env);
-    
-    return this.http.post<LoginResponse>(process.env['MOOLAH_MATE_SIGNIN_URL'] || '', user).pipe(
+    return this.http.post<LoginResponse>(this.environment.signin, user).pipe(
       tap((response: LoginResponse) => {
         this._isLoggedIn$.next(true);
         sessionStorage.setItem(this.TOKEN_NAME, response.accessToken);
@@ -48,7 +47,7 @@ export class AuthService {
    }
 
    signup(user: RegisterUser) {
-    return this.http.post(process.env['MOOLAH_MATE_SIGNUP_URL'] || '',user).pipe(
+    return this.http.post(this.environment.signup,user).pipe(
       tap((response: unknown) => {
         return response
       })
@@ -68,19 +67,19 @@ export class AuthService {
    }
 
    forgotPassword(email: string) {
-    return this.http.post(process.env['MOOLAH_MATE_FORGOT_PASSWORD_URL'] || '', {mail: email}).pipe(tap((response: unknown) =>response));
+    return this.http.post(this.environment.forgotPassword, {mail: email}).pipe(tap((response: unknown) =>response));
    }
 
    confirmPassword(form: ConfirmPassword) {
-    return this.http.post(process.env['MOOLAH_MATE_CONFIRM_PASSWORD'] || '', form).pipe(tap((response: unknown) =>response));
+    return this.http.post(this.environment.confirmPassword, form).pipe(tap((response: unknown) =>response));
    }
 
    resetPassword(form: ResetPassword) {
-    return this.http.post(process.env['MOOLAH_MATE_CHANGE_PASSWORD'] || '', form).pipe(tap((response: unknown) =>response));
+    return this.http.post(this.environment.changePassword, form).pipe(tap((response: unknown) =>response));
    }
 
    refreshToken(token: string, email: string) {
-    return this.http.post<LoginResponse>(process.env['MOOLAH_MATE_REFRESH_TOKEN_URL'] || '',{refreshToken: token, email: email}).pipe(tap((response:LoginResponse) => {
+    return this.http.post<LoginResponse>(this.environment.refreshToken,{refreshToken: token, email: email}).pipe(tap((response:LoginResponse) => {
       this._isLoggedIn$.next(true);
       sessionStorage.setItem(this.TOKEN_NAME, response.accessToken);
       sessionStorage.setItem(this.REFRESH_TOKEN_NAME, response.refreshToken);
