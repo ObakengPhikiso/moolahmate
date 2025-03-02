@@ -42,3 +42,4 @@ Thumbs.db
 .angular
 apps/auth/.env
 apps/client-auth/.env
+*.env

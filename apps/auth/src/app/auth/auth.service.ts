@@ -15,12 +15,14 @@ import { ConfirmPassword, LoginUser, RegisterUser} from '@moolahmate/interfaces'
 import { ChangePasswordDTO } from './dto/change-password.dto';
 import { EmailDTO } from './dto/email.dto';
 import { RefreshToken } from './dto/refreshToken.dto';
+import { UserService } from '../user/user.service';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
   private readonly userPool: CognitoUserPool;
 
-  constructor(private configService: ConfigService) {
+  constructor(private configService: ConfigService, private userService: UserService) {
       this.userPool = new CognitoUserPool({
           UserPoolId: configService.get<string>('UserPoolId'),
           ClientId: configService.get<string>('ClientId'),
@@ -37,10 +39,13 @@ export class AuthService {
                 new CognitoUserAttribute({ Name: 'name', Value: name }),
             ],
             null,
-            (err: Error, result: ISignUpResult) => {
+            async (err: Error, result: ISignUpResult) => {
                 if (err) {
                     reject(err);
                 } else {
+                  const user: CreateUserDto = {username: register.name, email: email};
+
+                 await this.userService.create(user);
                     resolve({
                       message: "User registration successful",
                       user: {
